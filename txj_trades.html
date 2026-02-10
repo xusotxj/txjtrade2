@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <head>
+  <meta charset="UTF-8">
+  <title>TXJ trades.</title>
+
+  <style>
+    /* AQUÍ VA TU CSS */
+    body{
+      background:black;
+      color:white;
+    }
+  </style>
+    <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="TXJ trades">
+
+</head>
+
+<meta charset="UTF-8">
+<title>TXJ trades.</title>
+
+<style>
+:root{
+  --green:#00ff9c;
+  --red:#ff355e;
+  --panel:rgba(10,10,10,.85);
+  --border:rgba(255,255,255,.08);
+}
+
+/* ===== RESET ===== */
+*{
+  box-sizing:border-box;
+  font-family:'Segoe UI',Arial,sans-serif;
+}
+
+/* ===== BODY + BACKGROUND ===== */
+body{
+  margin:0;
+  min-height:100vh;
+  color:white;
+  padding:40px 0 120px;
+
+  background:
+    linear-gradient(rgba(0,0,0,.65), rgba(0,0,0,.65)),
+    url("galactico.jpg") center center / cover no-repeat fixed;
+}
+
+/* ===== BRAND ===== */
+.brand{
+  position:fixed;
+  top:20px;
+  left:24px;
+  font-size:42px;
+  font-weight:800;
+  letter-spacing:2px;
+  color:white;
+  z-index:1000;
+  user-select:none;
+}
+
+/* ===== PENGUIN ===== */
+.penguin{
+  position:fixed;
+  right:20px;
+  bottom:0;
+  height:280px;
+  z-index:900;
+  pointer-events:none;
+  filter:drop-shadow(0 0 20px rgba(0,0,0,.9));
+  animation:penguinIn 1s ease;
+}
+
+@keyframes penguinIn{
+  from{transform:translateY(40px);opacity:0}
+  to{transform:none;opacity:1}
+}
+
+/* ===== PANEL ===== */
+.panel{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:24px;
+  backdrop-filter:blur(6px);
+}
+
+/* ===== HEADER ===== */
+.header{
+  max-width:1100px;
+  margin:0 auto 30px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.header button{
+  background:rgba(0,0,0,.6);
+  border:1px solid var(--border);
+  color:white;
+  padding:10px 18px;
+  border-radius:12px;
+  cursor:pointer;
+  transition:.25s;
+}
+.header button:hover{background:rgba(255,255,255,.08)}
+
+/* ===== CALENDAR ===== */
+.calendar-wrapper{
+  max-width:1100px;
+  margin:0 auto 60px;
+}
+
+.calendar{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:12px;
+}
+
+.day{
+  height:70px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:.25s;
+  background:rgba(0,0,0,.4);
+}
+.day:hover{
+  transform:translateY(-3px);
+  background:rgba(255,255,255,.08);
+}
+
+.day.win{border-color:var(--green);color:var(--green)}
+.day.loss{border-color:var(--red);color:var(--red)}
+.day.empty{opacity:.2;cursor:default}
+
+/* ===== MAIN ===== */
+.section{
+  max-width:1100px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:40px;
+}
+
+/* ===== FORM ===== */
+form{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+input,textarea{
+  background:rgba(0,0,0,.6);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:14px;
+  color:white;
+}
+
+textarea{min-height:80px}
+
+button{
+  background:white;
+  color:black;
+  border:none;
+  border-radius:12px;
+  padding:14px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.25s;
+}
+button:hover{opacity:.85}
+
+/* ===== STATS ===== */
+.stats{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:18px;
+}
+
+.circle{
+  width:260px;
+  height:260px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:40px;
+  font-weight:bold;
+  color:white;
+}
+
+.metric{text-align:center}
+
+/* ===== HISTORY ===== */
+.history{
+  max-width:1100px;
+  margin:80px auto 0;
+}
+
+.trade{
+  background:rgba(0,0,0,.6);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:18px;
+  animation:fadeIn .4s ease;
+  transition:.25s;
+}
+.trade:hover{
+  transform:translateY(-2px);
+  background:rgba(255,255,255,.05);
+}
+
+.trade.win{border-left:4px solid var(--green)}
+.trade.loss{border-left:4px solid var(--red)}
+
+.trade-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.trade-actions button{
+  padding:6px 10px;
+  font-size:12px;
+  margin-left:6px;
+}
+
+.trade img{
+  max-width:100%;
+  border-radius:12px;
+  margin-top:12px;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:none}
+}
+/* =========================
+   📳 TOUCH FEEDBACK
+========================= */
+button, .day{
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:active,
+.day:active{
+  transform:scale(0.96);
+  opacity:.85;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="brand">TXJ trades.</div>
+
+<div class="header">
+  <button id="prev">◀</button>
+  <span id="monthLabel"></span>
+  <button id="next">▶</button>
+</div>
+
+<div class="calendar-wrapper panel">
+  <div class="calendar" id="calendar"></div>
+</div>
+
+<section class="section">
+  <div class="panel">
+    <h2>Añadir trade</h2>
+    <form id="form">
+      <input type="date" id="date" required>
+      <input type="number" id="amount" placeholder="+200 / -50" required>
+      <textarea id="note" placeholder="Nota (puedes pegar imagen aquí)"></textarea>
+      <button>Guardar trade</button>
+    </form>
+  </div>
+
+  <div class="panel stats">
+    <div class="circle" id="circle">0%</div>
+    <div class="metric">Winrate mes: <strong id="monthWR">0%</strong></div>
+    <div class="metric">Profit mes: <strong id="monthProfit">$0</strong></div>
+    <div class="metric">Total trades: <strong id="total">0</strong></div>
+  </div>
+</section>
+
+<section class="history">
+  <h2>Historial</h2>
+  <div id="history"></div>
+</section>
+
+<img src="tcjcap.png" class="penguin">
+
+<script>
+let trades=JSON.parse(localStorage.getItem("trades"))||[];
+let pastedImage=null,editIndex=null;
+
+const calendar=document.getElementById("calendar");
+const historyEl=document.getElementById("history");
+const circle=document.getElementById("circle");
+const monthWR=document.getElementById("monthWR");
+const monthProfit=document.getElementById("monthProfit");
+const totalEl=document.getElementById("total");
+const monthLabel=document.getElementById("monthLabel");
+const note=document.getElementById("note");
+
+let now=new Date(),month=now.getMonth(),year=now.getFullYear();
+
+note.addEventListener("paste",e=>{
+  const img=[...e.clipboardData.items].find(i=>i.type.includes("image"));
+  if(!img)return;
+  const r=new FileReader();
+  r.onload=()=>pastedImage=r.result;
+  r.readAsDataURL(img.getAsFile());
+});
+
+function buildCalendar(){
+  calendar.innerHTML="";
+  const first=new Date(year,month,1).getDay()||7;
+  const days=new Date(year,month+1,0).getDate();
+  monthLabel.textContent=new Date(year,month)
+    .toLocaleDateString("es",{month:"long",year:"numeric"}).toUpperCase();
+
+  for(let i=1;i<first;i++)calendar.innerHTML+=`<div class="day empty"></div>`;
+  for(let d=1;d<=days;d++){
+    const div=document.createElement("div");
+    div.className="day";
+    div.textContent=d;
+    calendar.appendChild(div);
+  }
+}
+
+function render(){
+  historyEl.innerHTML="";
+  document.querySelectorAll(".day").forEach(d=>d.classList.remove("win","loss"));
+
+  let wins=0,mWins=0,mProfit=0,mTotal=0;
+
+  trades.forEach((t,i)=>{
+    const dt=new Date(t.date);
+    const isMonth=dt.getMonth()===month && dt.getFullYear()===year;
+
+    if(isMonth){
+      mTotal++; mProfit+=t.amount;
+      if(t.amount>0)mWins++;
+      const box=[...document.querySelectorAll(".day")]
+        .find(x=>x.textContent==dt.getDate());
+      if(box)box.classList.add(t.amount>0?"win":"loss");
+    }
+
+    if(t.amount>0)wins++;
+
+    const div=document.createElement("div");
+    div.className="trade "+(t.amount>0?"win":"loss");
+    div.innerHTML=`
+      <div class="trade-header">
+        <strong>${t.date}</strong>
+        <div class="trade-actions">
+          <button onclick="editTrade(${i})">✏️</button>
+          <button onclick="deleteTrade(${i})">🗑</button>
+        </div>
+      </div>
+      <div>${t.amount>0?"+":""}${t.amount}$</div>
+      <div>${t.note||""}</div>
+      ${t.image?`<img src="${t.image}">`:""}
+    `;
+    historyEl.appendChild(div);
+  });
+
+  const rate=trades.length?Math.round(wins/trades.length*100):0;
+  const mRate=mTotal?Math.round(mWins/mTotal*100):0;
+
+  const c=rate>=50?"var(--green)":"var(--red)";
+  circle.style.background=`conic-gradient(${c} ${rate}%, rgba(255,255,255,.1) 0%)`;
+  circle.textContent=rate+"%";
+
+  monthWR.textContent=mRate+"%";
+  monthWR.style.color=mRate>=50?"var(--green)":"var(--red)";
+  monthProfit.textContent="$"+mProfit;
+  monthProfit.style.color=mProfit>=0?"var(--green)":"var(--red)";
+  totalEl.textContent=trades.length;
+}
+
+form.onsubmit=e=>{
+  e.preventDefault();
+  vibrate(40);
+  const t={date:date.value,amount:+amount.value,note:note.value,image:pastedImage};
+  editIndex!==null?trades[editIndex]=t:trades.push(t);
+  editIndex=null; pastedImage=null;
+  localStorage.setItem("trades",JSON.stringify(trades));
+  form.reset(); render();
+};
+
+window.editTrade=i=>{
+  const t=trades[i];
+  date.value=t.date; amount.value=t.amount; note.value=t.note;
+  pastedImage=t.image; editIndex=i;
+};
+
+window.deleteTrade = i => {
+  if(confirm("¿Borrar trade?")){
+
+    vibrate(60); // 📳 feedback fuerte al borrar
+
+    trades.splice(i,1);
+    localStorage.setItem("trades",JSON.stringify(trades));
+    render();
+  }
+};
+
+prev.onclick = () => {
+
+  vibrate(20); // 📳 cambio de mes (sutil)
+
+  month--;
+  if(month < 0){
+    month = 11;
+    year--;
+  }
+  buildCalendar();
+  render();
+};
+
+next.onclick = () => {
+
+  vibrate(20); // 📳 cambio de mes (sutil)
+
+  month++;
+  if(month > 11){
+    month = 0;
+    year++;
+  }
+  buildCalendar();
+  render();
+};
+
+
+buildCalendar(); render();
+function vibrate(ms=20){
+  if("vibrate" in navigator){
+    navigator.vibrate(ms);
+  }
+}
+
+/* botones */
+document.querySelectorAll("button").forEach(b=>{
+  b.addEventListener("click",()=>vibrate(25));
+});
+
+/* calendario */
+calendar.addEventListener("click",e=>{
+  if(e.target.classList.contains("day") && !e.target.classList.contains("empty")){
+    vibrate(15);
+  }
+});
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("service-worker.js");
+  });
+}
+
+
+</script>
+
+</body>
+</html>
