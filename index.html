@@ -1,436 +1,489 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>TXJ trades.</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#000000">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="TXJ trades">
+    <title>DISCIPLINA</title>
 
-  <link rel="manifest" href="manifest.json">
-
-  <style>
-/* =========================
-   VARIABLES
-========================= */
-:root{
-  --green:#00ff9c;
-  --red:#ff355e;
-  --panel:rgba(10,10,10,.85);
-  --border:rgba(255,255,255,.08);
-}
-
-/* =========================
-   RESET
-========================= */
-*{
-  box-sizing:border-box;
-  font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
-  -webkit-tap-highlight-color:transparent;
-}
-
-html{
-  font-size:14px;
-}
-
-body{
-  margin:0;
-  min-height:100vh;
-  color:white;
-  padding:20px 0 120px;
-  overflow-x:hidden;
-  background:
-    linear-gradient(rgba(0,0,0,.65), rgba(0,0,0,.65)),
-    url("galactico.jpg") center/cover no-repeat fixed;
-}
-
-/* =========================
-   BRAND
-========================= */
-.brand{
-  text-align:center;
-  font-size:28px;
-  font-weight:800;
-  letter-spacing:2px;
-  margin-bottom:20px;
-}
-
-/* =========================
-   PANEL
-========================= */
-.panel{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:20px;
-  backdrop-filter:blur(6px);
-}
-
-/* =========================
-   HEADER
-========================= */
-.header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:0 12px;
-  margin-bottom:20px;
-}
-
-.header button{
-  background:rgba(0,0,0,.6);
-  border:1px solid var(--border);
-  color:white;
-  padding:8px 14px;
-  border-radius:12px;
-  cursor:pointer;
-}
-
-/* =========================
-   CALENDAR
-========================= */
-.calendar-wrapper{
-  margin:0 12px 40px;
-}
-
-.calendar{
-  display:grid;
-  grid-template-columns:repeat(7,1fr);
-  gap:6px;
-}
-
-.day{
-  aspect-ratio:1/1;
-  border-radius:10px;
-  border:1px solid var(--border);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:.75rem;
-  background:rgba(0,0,0,.4);
-  cursor:pointer;
-}
-
-.day.win{border-color:var(--green);color:var(--green)}
-.day.loss{border-color:var(--red);color:var(--red)}
-.day.empty{opacity:.2;cursor:default}
-
-/* =========================
-   MAIN SECTION
-========================= */
-.section{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:20px;
-  padding:0 12px;
-}
-
-/* =========================
-   FORM
-========================= */
-form{
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-}
-
-input,textarea{
-  background:rgba(0,0,0,.6);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:12px;
-  color:white;
-}
-
-textarea{min-height:80px}
-
-button{
-  background:white;
-  color:black;
-  border:none;
-  border-radius:12px;
-  padding:12px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-/* =========================
-   STATS
-========================= */
-.stats{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:16px;
-}
-
-.circle{
-  width:200px;
-  height:200px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:32px;
-  font-weight:bold;
-  color:white;
-}
-
-.metric{text-align:center}
-
-/* =========================
-   HISTORY
-========================= */
-.history{
-  padding:0 12px;
-  margin-top:60px;
-}
-
-.trade{
-  background:rgba(0,0,0,.6);
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:16px;
-  margin-bottom:16px;
-}
-
-.trade.win{border-left:4px solid var(--green)}
-.trade.loss{border-left:4px solid var(--red)}
-
-.trade-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.trade-actions button{
-  padding:4px 8px;
-  font-size:12px;
-  margin-left:6px;
-}
-
-.trade img{
-  max-width:100%;
-  border-radius:12px;
-  margin-top:12px;
-}
-
-/* =========================
-   PENGUIN
-========================= */
-.penguin{
-  position:fixed;
-  right:10px;
-  bottom:0;
-  height:180px;
-  pointer-events:none;
-  filter:drop-shadow(0 0 20px rgba(0,0,0,.9));
-}
-
-/* =========================
-   DESKTOP
-========================= */
-@media(min-width:768px){
-  html{font-size:16px}
-
-  .brand{
-    position:fixed;
-    top:20px;
-    left:24px;
-    font-size:42px;
-  }
-
-  .calendar-wrapper,
-  .header,
-  .section,
-  .history{
-    max-width:1100px;
-    margin-left:auto;
-    margin-right:auto;
-  }
-
-  .section{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .circle{
-    width:260px;
-    height:260px;
-    font-size:40px;
-  }
-
-  .penguin{
-    height:280px;
-  }
-}
-  </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-<div class="brand">TXJ trades.</div>
+    <div class="app">
 
-<div class="header">
-  <button id="prev">◀</button>
-  <span id="monthLabel"></span>
-  <button id="next">▶</button>
-</div>
+        <!-- CABECERA -->
+        <header class="header">
 
-<div class="calendar-wrapper panel">
-  <div class="calendar" id="calendar"></div>
-</div>
+            <div class="logo">
+                <div class="logo-box">D</div>
 
-<section class="section">
-  <div class="panel">
-    <h2>Añadir trade</h2>
-    <form id="form">
-      <input type="date" id="date" required>
-      <input type="number" id="amount" placeholder="+200 / -50" required>
-      <textarea id="note" placeholder="Nota (puedes pegar imagen aquí)"></textarea>
-      <button>Guardar trade</button>
-    </form>
-  </div>
+                <div>
+                    <h1>DISCIPLINA</h1>
+                    <p>Hazlo aunque no tengas ganas.</p>
+                </div>
+            </div>
 
-  <div class="panel stats">
-    <div class="circle" id="circle">0%</div>
-    <div class="metric">Winrate mes: <strong id="monthWR">0%</strong></div>
-    <div class="metric">Profit mes: <strong id="monthProfit">$0</strong></div>
-    <div class="metric">Total trades: <strong id="total">0</strong></div>
-  </div>
-</section>
+            <button id="themeButton" class="small-button">
+                ☼
+            </button>
 
-<section class="history">
-  <h2>Historial</h2>
-  <div id="history"></div>
-</section>
+        </header>
 
-<img src="tcjcap.png" class="penguin">
 
-<script>
-let trades=JSON.parse(localStorage.getItem("trades"))||[];
-let pastedImage=null,editIndex=null;
+        <!-- PRESENTACIÓN -->
+        <section class="hero">
 
-const calendar=document.getElementById("calendar");
-const historyEl=document.getElementById("history");
-const circle=document.getElementById("circle");
-const monthWR=document.getElementById("monthWR");
-const monthProfit=document.getElementById("monthProfit");
-const totalEl=document.getElementById("total");
-const monthLabel=document.getElementById("monthLabel");
-const note=document.getElementById("note");
+            <div class="hero-text">
 
-let now=new Date(),month=now.getMonth(),year=now.getFullYear();
+                <span class="eyebrow">
+                    PANEL DIARIO
+                </span>
 
-note.addEventListener("paste",e=>{
-  const img=[...e.clipboardData.items].find(i=>i.type.includes("image"));
-  if(!img)return;
-  const r=new FileReader();
-  r.onload=()=>pastedImage=r.result;
-  r.readAsDataURL(img.getAsFile());
-});
+                <h2>
+                    Tu disciplina<br>
+                    no se <span>negocia.</span>
+                </h2>
 
-function buildCalendar(){
-  calendar.innerHTML="";
-  const first=new Date(year,month,1).getDay()||7;
-  const days=new Date(year,month+1,0).getDate();
-  monthLabel.textContent=new Date(year,month)
-    .toLocaleDateString("es",{month:"long",year:"numeric"}).toUpperCase();
+                <p>
+                    Define lo que tienes que hacer.
+                    Hazlo. Mantén la racha.
+                </p>
 
-  for(let i=1;i<first;i++)calendar.innerHTML+=`<div class="day empty"></div>`;
-  for(let d=1;d<=days;d++){
-    const div=document.createElement("div");
-    div.className="day";
-    div.textContent=d;
-    calendar.appendChild(div);
-  }
-}
+                <div class="date-selector">
 
-function render(){
-  historyEl.innerHTML="";
-  document.querySelectorAll(".day").forEach(d=>d.classList.remove("win","loss"));
+                    <button id="previousDay">‹</button>
 
-  let wins=0,mWins=0,mProfit=0,mTotal=0;
+                    <div>
+                        <strong id="dateTitle">
+                            Hoy
+                        </strong>
 
-  trades.forEach((t,i)=>{
-    const dt=new Date(t.date);
-    const isMonth=dt.getMonth()===month && dt.getFullYear()===year;
+                        <span id="dateSubtitle">
+                            -
+                        </span>
+                    </div>
 
-    if(isMonth){
-      mTotal++; mProfit+=t.amount;
-      if(t.amount>0)mWins++;
-      const box=[...document.querySelectorAll(".day")]
-        .find(x=>x.textContent==dt.getDate());
-      if(box)box.classList.add(t.amount>0?"win":"loss");
-    }
+                    <button id="nextDay">›</button>
 
-    if(t.amount>0)wins++;
+                </div>
 
-    const div=document.createElement("div");
-    div.className="trade "+(t.amount>0?"win":"loss");
-    div.innerHTML=`
-      <div class="trade-header">
-        <strong>${t.date}</strong>
-        <div class="trade-actions">
-          <button onclick="editTrade(${i})">✏️</button>
-          <button onclick="deleteTrade(${i})">🗑</button>
+            </div>
+
+
+            <!-- PORCENTAJE -->
+            <div class="progress-card">
+
+                <div
+                    class="progress-circle"
+                    id="progressCircle"
+                >
+                    <div class="progress-inside">
+
+                        <strong id="percentage">
+                            0%
+                        </strong>
+
+                        <span>
+                            completado
+                        </span>
+
+                    </div>
+                </div>
+
+
+                <div>
+
+                    <span class="small-label">
+                        DISCIPLINA DE HOY
+                    </span>
+
+                    <h3 id="dayStatus">
+                        Empieza el día.
+                    </h3>
+
+                    <p id="dayMessage">
+                        Una tarea hecha es mejor
+                        que diez pensadas.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ESTADÍSTICAS -->
+        <section class="statistics">
+
+            <div class="stat">
+                <span>🔥 RACHA GLOBAL</span>
+
+                <strong id="globalStreak">
+                    0
+                </strong>
+
+                <small>
+                    días consecutivos
+                </small>
+            </div>
+
+
+            <div class="stat">
+                <span>✓ HOY</span>
+
+                <strong id="completedTasks">
+                    0/0
+                </strong>
+
+                <small>
+                    tareas completadas
+                </small>
+            </div>
+
+
+            <div class="stat">
+                <span>🏆 RÉCORD</span>
+
+                <strong id="globalRecord">
+                    0
+                </strong>
+
+                <small>
+                    mejor racha global
+                </small>
+            </div>
+
+
+            <div class="stat">
+                <span>📆 DÍAS ACTIVOS</span>
+
+                <strong id="activeDays">
+                    0
+                </strong>
+
+                <small>
+                    días con actividad
+                </small>
+            </div>
+
+        </section>
+
+
+        <!-- CONTENIDO -->
+        <main class="main-grid">
+
+
+            <!-- TAREAS -->
+            <section class="panel tasks-panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <span class="eyebrow">
+                            CHECKLIST
+                        </span>
+
+                        <h2>
+                            Lo que toca hoy
+                        </h2>
+                    </div>
+
+                    <button
+                        id="addTaskButton"
+                        class="primary-button"
+                    >
+                        + Añadir disciplina
+                    </button>
+
+                </div>
+
+
+                <div class="progress-bar">
+                    <div id="progressBar"></div>
+                </div>
+
+
+                <div
+                    id="tasksContainer"
+                    class="tasks-container"
+                >
+                </div>
+
+
+                <div
+                    id="emptyState"
+                    class="empty-state"
+                >
+
+                    <div class="empty-icon">
+                        ✦
+                    </div>
+
+                    <h3>
+                        Aún no tienes disciplinas.
+                    </h3>
+
+                    <p>
+                        Añade aquello que quieres cumplir
+                        todos los días.
+                    </p>
+
+                    <button
+                        id="firstTaskButton"
+                        class="primary-button"
+                    >
+                        + Crear primera tarea
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- COLUMNA DERECHA -->
+            <aside class="side">
+
+
+                <!-- RACHAS -->
+                <section class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <span class="eyebrow">
+                                TUS RACHAS
+                            </span>
+
+                            <h2>
+                                Constancia
+                            </h2>
+                        </div>
+
+                        <span class="fire">
+                            🔥
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        id="streaksContainer"
+                        class="streaks"
+                    >
+                    </div>
+
+                </section>
+
+
+                <!-- HISTORIAL -->
+                <section class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <span class="eyebrow">
+                                HISTORIAL
+                            </span>
+
+                            <h2>
+                                Últimos 14 días
+                            </h2>
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="historyContainer"
+                        class="history"
+                    >
+                    </div>
+
+                    <div class="legend">
+
+                        <span>
+                            <i class="complete"></i>
+                            completo
+                        </span>
+
+                        <span>
+                            <i class="partial"></i>
+                            parcial
+                        </span>
+
+                        <span>
+                            <i class="empty"></i>
+                            vacío
+                        </span>
+
+                    </div>
+
+                </section>
+
+            </aside>
+
+        </main>
+
+
+        <!-- FOOTER -->
+        <footer>
+
+            <span>
+                Tu única competición es con la persona
+                que eras ayer.
+            </span>
+
+            <button id="resetButton">
+                Restablecer datos
+            </button>
+
+        </footer>
+
+    </div>
+
+
+    <!-- MODAL -->
+    <div
+        id="modal"
+        class="modal-background hidden"
+    >
+
+        <div class="modal">
+
+            <button
+                id="closeModal"
+                class="close-modal"
+            >
+                ×
+            </button>
+
+            <span class="eyebrow">
+                NUEVA DISCIPLINA
+            </span>
+
+            <h2 id="modalTitle">
+                Añade algo que quieras cumplir.
+            </h2>
+
+
+            <form id="taskForm">
+
+                <input
+                    type="hidden"
+                    id="taskId"
+                >
+
+
+                <label>
+                    ¿Qué tienes que hacer?
+
+                    <input
+                        type="text"
+                        id="taskName"
+                        placeholder="Ej. Entrenar 45 minutos"
+                        maxlength="70"
+                        required
+                    >
+                </label>
+
+
+                <div class="form-row">
+
+                    <label>
+                        ¿Cuándo?
+
+                        <input
+                            type="time"
+                            id="taskTime"
+                            value="08:00"
+                        >
+                    </label>
+
+
+                    <label>
+                        Categoría
+
+                        <select id="taskCategory">
+
+                            <option>
+                                Salud
+                            </option>
+
+                            <option>
+                                Entrenamiento
+                            </option>
+
+                            <option>
+                                Trabajo
+                            </option>
+
+                            <option>
+                                Estudio
+                            </option>
+
+                            <option>
+                                Hábitos
+                            </option>
+
+                            <option>
+                                Personal
+                            </option>
+
+                        </select>
+
+                    </label>
+
+                </div>
+
+
+                <label>
+                    Nota
+
+                    <textarea
+                        id="taskNote"
+                        placeholder="Algo que quieras recordar..."
+                        maxlength="160"
+                    ></textarea>
+                </label>
+
+
+                <div class="modal-buttons">
+
+                    <button
+                        type="button"
+                        id="cancelModal"
+                        class="secondary-button"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="primary-button"
+                    >
+                        Guardar disciplina
+                    </button>
+
+                </div>
+
+            </form>
+
         </div>
-      </div>
-      <div>${t.amount>0?"+":""}${t.amount}$</div>
-      <div>${t.note||""}</div>
-      ${t.image?`<img src="${t.image}">`:""}
-    `;
-    historyEl.appendChild(div);
-  });
 
-  const rate=trades.length?Math.round(wins/trades.length*100):0;
-  const mRate=mTotal?Math.round(mWins/mTotal*100):0;
+    </div>
 
-  const c=rate>=50?"var(--green)":"var(--red)";
-  circle.style.background=`conic-gradient(${c} ${rate}%, rgba(255,255,255,.1) 0%)`;
-  circle.textContent=rate+"%";
 
-  monthWR.textContent=mRate+"%";
-  monthWR.style.color=mRate>=50?"var(--green)":"var(--red)";
-  monthProfit.textContent="$"+mProfit;
-  monthProfit.style.color=mProfit>=0?"var(--green)":"var(--red)";
-  totalEl.textContent=trades.length;
-}
+    <!-- NOTIFICACIÓN -->
+    <div
+        id="toast"
+        class="toast"
+    ></div>
 
-form.onsubmit=e=>{
-  e.preventDefault();
-  const t={date:date.value,amount:+amount.value,note:note.value,image:pastedImage};
-  editIndex!==null?trades[editIndex]=t:trades.push(t);
-  editIndex=null; pastedImage=null;
-  localStorage.setItem("trades",JSON.stringify(trades));
-  form.reset(); render();
-};
 
-window.editTrade=i=>{
-  const t=trades[i];
-  date.value=t.date; amount.value=t.amount; note.value=t.note;
-  pastedImage=t.image; editIndex=i;
-};
-
-window.deleteTrade=i=>{
-  if(confirm("¿Borrar trade?")){
-    trades.splice(i,1);
-    localStorage.setItem("trades",JSON.stringify(trades));
-    render();
-  }
-};
-
-prev.onclick=()=>{month--;if(month<0){month=11;year--}buildCalendar();render()};
-next.onclick=()=>{month++;if(month>11){month=0;year++}buildCalendar();render()};
-
-buildCalendar(); render();
-
-if("serviceWorker" in navigator){
-  navigator.serviceWorker.register("service-worker.js");
-}
-</script>
+    <script src="script.js"></script>
 
 </body>
 </html>
